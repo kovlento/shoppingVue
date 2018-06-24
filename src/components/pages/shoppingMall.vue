@@ -50,7 +50,7 @@
 		</div>
 	</div>
   <!--floor one area-->
-  <div class="floor">
+<!--   <div class="floor">
       <div class="floor-anomaly">
           <div class="floor-one"><img :src="floor1_0.image" width="100%" /></div>
           <div>
@@ -59,7 +59,7 @@
           </div>
       </div>
    
-  </div>
+  </div> -->
   </div>
 </template>
 <script>
@@ -80,6 +80,8 @@ export default {
     	adBanner:[],
     	recommendGoods:[],
       floor1:[],
+      floor2:[],
+      floor3:[],
     }
   },
   created(){
@@ -92,20 +94,15 @@ export default {
   		if(response.status==200){
   			this.category=response.data.data.category;
   			//先在created里获取数据，然后进行html骨架编写，最后进行CSS样式的调整
-  			this.adBanner = response.data.data.advertesPicture;
+  			this.adBanner = response.data.data.advertesPicture.PICTURE_ADDRESS;
   			//轮播图片
   			this.bannerPicArray = response.data.data.slides;
   			//推荐商品   
   			this.recommendGoods = response.data.data.recommend;
         //floor1
         this.floor1 = response.data.data.floor1;
-        this.floor1_0 = this.floor1[0]; 
-        this.floor1_1 = this.floor1[1]; 
-        this.floor1_2 = this.floor1[2]; 
-        this.floor1_3 = this.floor1[3]; 
-        this.floor1_4 = this.floor1[4]; 
-        this.floor1_5 = this.floor1[5]; 
-        this.floor1_6 = this.floor1[6]; 
+        this.floor2 = response.data.data.floor2;
+        this.floor3 = response.data.data.floor3;
   		}
   	})
   	.catch(error=>{
