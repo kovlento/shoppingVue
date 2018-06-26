@@ -50,25 +50,38 @@
 		</div>
 	</div>
   <!--floor one area-->
-<!--   <div class="floor">
-      <div class="floor-anomaly">
-          <div class="floor-one"><img :src="floor1_0.image" width="100%" /></div>
-          <div>
-              <div class="floor-two"><img :src="floor1_1.image" width="100%" /></div>
-              <div><img :src="floor1_2.image" width="100%" /></div>
-          </div>
-      </div>
-   
-  </div> -->
+  <floorComponent :floorData="floor1" :floorTitle="floorName.floor1"></floorComponent>
+  <floorComponent :floorData="floor2" :floorTitle="floorName.floor2"></floorComponent>
+  <floorComponent :floorData="floor3" :floorTitle="floorName.floor3"></floorComponent>
+  <!-- Hot area -->
+  <div class="hot-area">
+    <div class="hot-title">热卖商品</div>
+    <div class="hot-goods">
+       <!--这里需要一个list组件-->
+       <van-list>
+          <van-row gutter="20">
+              <van-col span="12" v-for="( item, index) in hotGoods" :key="index">
+                <goodsInfo :goodsImage="item.image" :goodsNames="item.name" 
+                :goodsPrice="item.price">
+                </goodsInfo>
+              </van-col>
+          </van-row>
+        </van-list>
+    </div>
+  </div>
   </div>
 </template>
 <script>
 import axios from 'axios'
 import 'swiper/dist/css/swiper.css'
 import {swiper , swiperSlide} from 'vue-awesome-swiper'
+import floorComponent from '../component/floorComponent'
+import {toMoney} from '@/filter/moneyFilter.js'
+import goodsInfo from '../component/goodsInfoComponent'
+
 export default {
   name: 'shoppingMall',
-  components:{swiper,swiperSlide},
+  components:{swiper,swiperSlide,floorComponent,goodsInfo},
   data () {
     return {
     	swiperOption:{
@@ -82,11 +95,18 @@ export default {
       floor1:[],
       floor2:[],
       floor3:[],
+      floorName:{},
+      hotGoods:[] 
     }
+  },
+  filters:{
+    moneyFilter(money){
+        return toMoney(money)
+    }  
   },
   created(){
   	axios({
-  		url: 'https://www.easy-mock.com/mock/5aef1a5afa30186ca1e9971f/shoppingVue',
+  		url: 'https://www.easy-mock.com/mock/5ae2eeb23fbbf24d8cd7f0b6/SmileVue/index',
         method: 'get',
   	})
   	.then(response=>{
@@ -100,13 +120,15 @@ export default {
   			//推荐商品   
   			this.recommendGoods = response.data.data.recommend;
         //floor1
-        this.floor1 = response.data.data.floor1;
-        this.floor2 = response.data.data.floor2;
-        this.floor3 = response.data.data.floor3;
+        this.floor1 = response.data.data.floor1;              //楼层1数据
+        this.floor2 = response.data.data.floor2;              //楼层2数据
+        this.floor3 = response.data.data.floor3;            //楼层3数据
+        this.floorName = response.data.data.floorName;        //楼层名称
+        this.hotGoods = response.data.data.hotGoods;
   		}
   	})
   	.catch(error=>{
-
+      console.log(error)
   	})
   }
 }
@@ -187,5 +209,11 @@ export default {
   }
   .floor-two{
       border-bottom:1px solid #ddd;
+  }
+  .hot-area{
+      text-align: center;
+      font-size:14px;
+      height: 1.8rem;
+      line-height:1.8rem;
   }
 </style>
