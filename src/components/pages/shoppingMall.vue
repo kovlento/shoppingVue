@@ -78,6 +78,7 @@ import {swiper , swiperSlide} from 'vue-awesome-swiper'
 import floorComponent from '../component/floorComponent'
 import {toMoney} from '@/filter/moneyFilter.js'
 import goodsInfo from '../component/goodsInfoComponent'
+import url from '@/serviveAPI.config.js'
 
 export default {
   name: 'shoppingMall',
@@ -106,8 +107,8 @@ export default {
   },
   created(){
   	axios({
-  		url: 'https://www.easy-mock.com/mock/5ae2eeb23fbbf24d8cd7f0b6/SmileVue/index',
-        method: 'get',
+  		url: url.getShoppingMallInfo,
+      method: 'get',
   	})
   	.then(response=>{
   		console.log(response)
