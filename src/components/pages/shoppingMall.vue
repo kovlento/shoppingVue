@@ -78,10 +78,9 @@ import {swiper , swiperSlide} from 'vue-awesome-swiper'
 import floorComponent from '../component/floorComponent'
 import {toMoney} from '@/filter/moneyFilter.js'
 import goodsInfo from '../component/goodsInfoComponent'
-import url from '@/serviveAPI.config.js'
+import url from '@/serviceAPI.config.js'
 
 export default {
-  name: 'shoppingMall',
   components:{swiper,swiperSlide,floorComponent,goodsInfo},
   data () {
     return {
