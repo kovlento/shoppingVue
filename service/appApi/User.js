@@ -18,7 +18,7 @@ router.post('/register',async(ctx)=>{
 	}).catch(error=>{
 		//失败返回code=500，并返回错误信息
 		ctx.body={
-			code:500
+			code:500,
 			message:'注册失败，请联系管理员'
 		}
 	})

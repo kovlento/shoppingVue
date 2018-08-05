@@ -49,11 +49,20 @@
                 passwordErrorMsg:'',   //当密码出现错误的时候
             }
         },
+        created(){
+            if(localStorage.userInfo){
+                Toast.success('您已经登录过了')
+                this.$router.push('/')
+            }
+        },
         methods: {
             goBack() {
                 this.$router.go(-1)   
             },
             axiosLoginUser(){
+                //防止重复提交
+                this.openLoading = true
+
                 axios({
                     url:url.login,
                     method:'post',
@@ -63,9 +72,17 @@
                     }
                 }).then(response =>{
                     console.log(response)
-                    if(response.data.code==200){
-                        Toast.success('登录成功')
-                        this.$router.push('/')
+                    if(response.data.code==200&& response.data.message){
+                        new Promise((resolve,reject)=>{
+                           localStorage.userInfo= {userName:this.username}
+                           setTimeout(()=>{resolve()},500)
+                       }).then(()=>{
+                            Toast.success('登录成功')
+                            this.$router.push('/')
+                       }).catch(err=>{
+                           Toast.fail('登录状态保存失败')
+                           console.log(err)
+                       })
                     }else{
                         console.log(response.data.message)
                         Toast.fail('登录失败')
